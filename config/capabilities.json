@@ -1,0 +1,11 @@
+{
+  "platformName": "Android",
+  "automationName": "UiAutomator2",
+  "platformVersion": "13",
+  "deviceName": "RF8R20FJEFJ",
+  "udid": "RF8R20FJEFJ",
+  "app": "C:/Users/Alejandro/Desktop/FrameworkPractice/Android_Demo_App.apk",
+  "appPackage": "com.code2lead.kwad",
+  "appActivity": "com.code2lead.kwad.MainActivity",
+  "fullReset": true
+}

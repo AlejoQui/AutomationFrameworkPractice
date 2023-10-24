@@ -1,0 +1,26 @@
+{
+    "left": {
+        "start_x": 0.8889,
+        "start_y": 0.5,
+        "end_x": 0.1111,
+        "end_y": 0.5
+    },
+    "right": {
+        "start_x": 0.1111,
+        "start_y": 0.5,
+        "end_x": 0.8889,
+        "end_y": 0.5
+    },
+    "top": {
+        "start_x": 0.5,
+        "start_y": 0.8889,
+        "end_x": 0.5,
+        "end_y": 0.1111
+    },
+    "bottom": {
+        "start_x": 0.5,
+        "start_y": 0.2222,
+        "end_x": 0.5,
+        "end_y": 0.8889
+    }
+}

@@ -1,0 +1,19 @@
+{
+
+	"HomeButtons":{
+		"BUTTON_ENTER_SOME_VALUE": "Btn1"
+		"BUTTON_CONTACT_US_FROM": "Btn2"
+		"BUTTON_SCROLLVIEW": "Btn3"
+		"BUTTON_TAB_ACTIVITY": "Btn4"
+		"BUTTON_ZOOM": "Btn5"
+		"BUTTON_LOGIN": "Btn6"
+		"BUTTON_LONG_CLICK": "Btn7"
+		"BUTTON_TIME": "Btn8"
+		"BUTTON_DATE": "Btn9"
+		"BUTTON_HYBRID": "com.code2lead.kwad:id/hybrid"
+		"BUTTON_PINCH_IN_OUT": "com.code2lead.kwad:id/pinch"
+		"BUTTON_DRAGANDDROP": "com.code2lead.kwad:id/drag"
+		"BUTTON_CRASH": "com.code2lead.kwad:id/crash"
+		"BUTTON_AUTO_SUGGESTION": "com.code2lead.kwad:id/autocomlete"
+	}
+}
