@@ -1,4 +1,5 @@
 import json
+import os
 
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.common.touch_action import TouchAction
@@ -13,21 +14,22 @@ app_launcher = KWALauncher()
 
 
 class ActionGestures(ResolutionDevice):
-    BUTTON_NAVIGATE_UP = 'Navigate up'
 
-    with open(r"C:\Users\Alejandro Q\Desktop\FrameworkPractice\config\constans_swipe_to.json") as json_file:
+    current_directory = os.path.dirname(__file__)
+    relative_path = 'config/constans_swipe_to.json'
+    coordinates_path = os.path.join(current_directory, relative_path)
+
+    with open(coordinates_path, "r") as json_file:
         directions = json.load(json_file)
 
     def __init__(self):
         super().__init__()
         self.driver = KWALauncher().get_driver()
         self.resolution_device = ResolutionDevice().get_resolution()
+        self.BUTTON_NAVIGATE_UP = (AppiumBy.ACCESSIBILITY_ID, "Navigate up")
 
-    def click_by_accessibility_id(self, accessibility_id):
-        self.wait_and_click(self.driver, AppiumBy.ACCESSIBILITY_ID, accessibility_id)
-
-    def wait_and_click(self, by, value, timeout=30):
-        element = WebDriverWait(self.driver, timeout).until(ec.element_to_be_clickable((by, value)))
+    def wait_and_click(self, value, timeout=30):
+        element = WebDriverWait(self.driver, timeout).until(ec.element_to_be_clickable(value))
         element.click()
 
     def scroll_to_element_click(self, by, value, timeout=30):
@@ -38,7 +40,7 @@ class ActionGestures(ResolutionDevice):
         WebDriverWait(self.driver, timeout).until(ec.presence_of_element_located((by, value)))
 
     def click_back_button(self):
-        self.wait_and_click(AppiumBy.ACCESSIBILITY_ID, self.BUTTON_NAVIGATE_UP)
+        self.wait_and_click(self.BUTTON_NAVIGATE_UP)
 
     def back_driver(self):
         self.driver.back()
