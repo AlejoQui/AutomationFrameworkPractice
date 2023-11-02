@@ -10,8 +10,9 @@ class EnterAdminPage:
     def __init__(self):
         self.driver = KWALauncher().get_driver()
         self.action_gestures = action_gestures
-        self.PAGE_HEADER = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.PAGE_TITLE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.INPUT_ENTER_ADMIN = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.SUBMIT_BUTTON = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.MESSAGE_PREVIEW = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
+        self.PAGE_HEADER = (AppiumBy.XPATH, "//android.widget.TextView[@text='KWADemo']")
+        self.PAGE_TITLE = (AppiumBy.XPATH, '//android.widget.TextView[@text="Enter Admin"]')
+
+        self.INPUT_ENTER_ADMIN = (AppiumBy.ID, "com.code2lead.kwad:id/Edt_admin")
+        self.SUBMIT_BUTTON = (AppiumBy.ID,  "com.code2lead.kwad:id/Btn_admin_sub")
+        self.MESSAGE_PREVIEW = (AppiumBy.ID, "com.code2lead.kwad:id/Tv_admin")

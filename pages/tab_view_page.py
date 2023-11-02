@@ -10,10 +10,16 @@ class TabViewPage:
     def __init__(self):
         self.driver = KWALauncher().get_driver()
         self.action_gestures = action_gestures
-        self.PAGE_HEADER = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.HOME_TAB = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.HOME_TAB_MESSAGE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.HOME_SPORT = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.HOME_SPORT_MESSAGE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.HOME_MOVIE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.HOME_MOVIE_MESSAGE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
+        self.PAGE_HEADER = (AppiumBy.XPATH, '//android.widget.TextView[@text="Tab View"]')
+
+        self.HOME_TAB_TITLE = (AppiumBy.ACCESSIBILITY_ID, 'Home')
+        self.HOME_TAB_NAME = (AppiumBy.XPATH, '//android.widget.TextView[@text="HOME"]')
+        self.HOME_TAB_MESSAGE = (AppiumBy.XPATH, '//android.widget.TextView[@text="HomeFragment"]')
+
+        self.SPORT_TAB_NAME = (AppiumBy.ACCESSIBILITY_ID, 'Sport')
+        self.SPORT_TAB_TITLE = (AppiumBy.XPATH, '//android.widget.TextView[@text="SPORT"]')
+        self.SPORT_TAB_MESSAGE = (AppiumBy.XPATH, '//android.widget.TextView[@text="SportFragment"]')
+
+        self.MOVIE_TAB_NAME = (AppiumBy.ACCESSIBILITY_ID, 'Movie')
+        self.MOVIE_TAB_TITLE = (AppiumBy.XPATH, '//android.widget.TextView[@text="MOVIE"]')
+        self.MOVIE_TAB_MESSAGE = (AppiumBy.XPATH, '//android.widget.TextView[@text="MovieFragment"]')

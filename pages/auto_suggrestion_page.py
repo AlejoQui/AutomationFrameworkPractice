@@ -10,7 +10,8 @@ class AutoSuggestionPage:
     def __init__(self):
         self.driver = KWALauncher().get_driver()
         self.action_gestures = action_gestures
-        self.PAGE_HEADER = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.INPUT_ENTER_HERE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.SUBMIT_BUTTON = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
-        self.MESSAGE_SENT = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
+        self.PAGE_HEADER = (AppiumBy.XPATH, "//android.widget.TextView[@text='KWADemo']")
+
+        self.INPUT_ENTER_HERE = (AppiumBy.ID, "com.code2lead.kwad:id/multiAutoCompleteTextView")
+        self.SUBMIT_BUTTON = (AppiumBy.ID, "com.code2lead.kwad:id/btn_submit")
+        self.MESSAGE_SENT = (AppiumBy.ID, "com.code2lead.kwad:id/tv_value")
