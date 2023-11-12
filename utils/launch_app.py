@@ -1,7 +1,9 @@
-from appium import webdriver
-from pathlib import Path
 import json
+from pathlib import Path
+
+from appium import webdriver
 from selenium.common import WebDriverException
+
 from utils.constants import General
 
 
@@ -27,18 +29,22 @@ class KWALauncher:
             root_directory = Path(__file__).resolve().parent.parent
             full_path = (root_directory / file_path).resolve()
 
-            with open(full_path, 'r') as file:
+            with open(full_path, "r") as file:
                 capabilities = json.load(file)
 
-            if 'app' not in capabilities:
-                raise ValueError("Check the 'capabilities.json'. Verify that the 'app' key is present.")
+            if "app" not in capabilities:
+                raise ValueError(
+                    "Check the 'capabilities.json'. Verify that the 'app' key is present."
+                )
 
-            apk_path = (root_directory / capabilities['app']).resolve()
+            apk_path = (root_directory / capabilities["app"]).resolve()
 
             if not apk_path.is_file():
-                raise FileNotFoundError(f"The APK file was not found at the specified path: {apk_path}."
-                                        f"Please check the 'capabilities.json' file and "
-                                        f"verify that the 'app' key is present.")
+                raise FileNotFoundError(
+                    f"The APK file was not found at the specified path: {apk_path}."
+                    f"Please check the 'capabilities.json' file and "
+                    f"verify that the 'app' key is present."
+                )
 
             return capabilities
 
