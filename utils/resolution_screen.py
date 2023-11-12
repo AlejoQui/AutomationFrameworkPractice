@@ -1,4 +1,4 @@
-from utils.constans import General
+from utils.constants import General
 from utils.launch_app import KWALauncher
 
 app_launcher = KWALauncher()

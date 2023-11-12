@@ -1,30 +1,68 @@
-import json
-import os
-
 from appium import webdriver
-
-from utils.constans import General
-
-constants = General()
+from pathlib import Path
+import json
+from selenium.common import WebDriverException
+from utils.constants import General
 
 
 class KWALauncher:
-    def __init__(self):
-        current_directory = os.path.dirname(__file__)
-        capabilities_path = os.path.join(current_directory, constants.CAPABILITIES_PATH)
+    def __init__(self, constants_path="constants.py"):
+        self.script_directory = Path(__file__).resolve().parent
+        self.constants_path = self.script_directory / constants_path
+        self.driver = None
 
-        with open(capabilities_path, "r") as json_file:
-            self.appium_options = json.load(json_file)
+        self.constants = General()
+        self.initialize()
 
-        # Convert absolute path to relative path
-        self.appium_options[constants.APP_IN_CAPABILITIES_JSON_PATH] = os.path.relpath(
-            self.appium_options[constants.APP_IN_CAPABILITIES_JSON_PATH], start=current_directory
-        )
+    def initialize(self):
+        if not self.constants_path.is_file():
+            raise FileNotFoundError(f"Constants file not found: {self.constants_path}")
+        else:
+            print(f"Constants file found: {self.constants_path}")
 
-        self.driver = self.launch_app()
+    @staticmethod
+    def load_capabilities_from_file(file_path):
+        print(f"Attempting to load file from: {file_path}")
+        try:
+            root_directory = Path(__file__).resolve().parent.parent
+            full_path = (root_directory / file_path).resolve()
+
+            with open(full_path, 'r') as file:
+                capabilities = json.load(file)
+
+            if 'app' not in capabilities:
+                raise ValueError("Check the 'capabilities.json'. Verify that the 'app' key is present.")
+
+            apk_path = (root_directory / capabilities['app']).resolve()
+
+            if not apk_path.is_file():
+                raise FileNotFoundError(f"The APK file was not found at the specified path: {apk_path}."
+                                        f"Please check the 'capabilities.json' file and "
+                                        f"verify that the 'app' key is present.")
+
+            return capabilities
+
+        except FileNotFoundError as e:
+            raise ValueError(f"Error loading capabilities from file: File not found - {e}")
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Error loading capabilities from file: JSON decoding error - {e}")
+        except Exception as e:
+            raise ValueError(f"Error loading capabilities from file: {e}")
 
     def launch_app(self):
-        return webdriver.Remote(constants.SERVER_PATH, self.appium_options)
+        try:
+            capabilities_file_path = self.constants.CAPABILITIES_PATH
+            capabilities = self.load_capabilities_from_file(capabilities_file_path)
 
-    def get_driver(self):
-        return self.driver
+            self.driver = webdriver.Remote(self.constants.SERVER_PATH, capabilities)
+
+        except WebDriverException as e:
+            raise WebDriverException(f"Error launching the app: {e}")
+
+    def close_app(self):
+        try:
+            if self.driver:
+                self.driver.quit()
+                self.driver = None
+        except Exception as e:
+            raise RuntimeError(f"Error closing the app: {e}")

@@ -8,7 +8,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
-from utils.constans import ErrorMessages, General, InformativeMessage
+from utils.constants import ErrorMessages, General, InformativeMessage
 from utils.launch_app import KWALauncher
 from utils.resolution_screen import ResolutionDevice
 
@@ -29,7 +29,7 @@ class ActionGestures(ResolutionDevice):
 
     def __init__(self):
         super().__init__()
-        self.driver = KWALauncher().get_driver()
+        self.driver = KWALauncher().launch_app()
         self.resolution_device = ResolutionDevice().get_resolution()
         self.BUTTON_NAVIGATE_UP = (AppiumBy.ACCESSIBILITY_ID, "Navigate up")
 

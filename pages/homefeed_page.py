@@ -9,7 +9,7 @@ action_gestures = ActionGestures()
 
 class HomefeedPage:
     def __init__(self):
-        self.driver = KWALauncher().get_driver()
+        self.driver = KWALauncher().launch_app()
         self.action_gestures = action_gestures
         self.BUTTON_ENTER_SOME_VALUE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
         self.BUTTON_CONTACT_US_FROM = (AppiumBy.ACCESSIBILITY_ID, "Btn2")

@@ -9,7 +9,7 @@ action_gestures = ActionGestures()
 
 class TimeActivityPage:
     def __init__(self):
-        self.driver = KWALauncher().get_driver()
+        self.driver = KWALauncher().launch_app()
         self.action_gestures = action_gestures
         self.PAGE_HEADER = (
             AppiumBy.XPATH,
