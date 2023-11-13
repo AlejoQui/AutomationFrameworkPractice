@@ -86,6 +86,7 @@ class KWALauncher:
             self.verify_apk_file(capabilities_json)
 
             self.driver = webdriver.Remote(self.constants.SERVER_PATH, capabilities_json)
+            return self.driver
 
         except WebDriverException as e:
             raise WebDriverException(f"Error launching the app: {e}")

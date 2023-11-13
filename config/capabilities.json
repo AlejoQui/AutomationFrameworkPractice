@@ -7,5 +7,5 @@
   "app": "config/Android_Demo_App.apk",
   "appPackage": "com.code2lead.kwad",
   "appActivity": "com.code2lead.kwad.MainActivity",
-  "fullReset": true
+  "noReset": false
 }

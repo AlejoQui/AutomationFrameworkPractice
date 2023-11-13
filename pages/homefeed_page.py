@@ -4,13 +4,12 @@ from utils.actions_gesture import ActionGestures
 from utils.launch_app import KWALauncher
 
 app_launcher = KWALauncher()
-action_gestures = ActionGestures()
 
 
 class HomefeedPage:
     def __init__(self):
-        self.driver = KWALauncher().launch_app()
-        self.action_gestures = action_gestures
+        self.driver = app_launcher.launch_app()
+        self.action_gestures = ActionGestures()
         self.BUTTON_ENTER_SOME_VALUE = (AppiumBy.ACCESSIBILITY_ID, "Btn1")
         self.BUTTON_CONTACT_US_FROM = (AppiumBy.ACCESSIBILITY_ID, "Btn2")
         self.BUTTON_SCROLLVIEW = (AppiumBy.ACCESSIBILITY_ID, "Btn3")
@@ -72,7 +71,7 @@ class HomefeedPage:
         self.action_gestures.wait_and_click(self.BUTTON_AUTO_SUGGESTION)
 
     def go_back_button(self):
-        action_gestures.click_back_button()
+        self.action_gestures.click_back_button()
 
     def go_back(self):
-        action_gestures.back_driver()
+        self.action_gestures.back_driver()

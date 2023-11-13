@@ -1,5 +1,5 @@
 import json
-import os
+from pathlib import Path
 
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.common.touch_action import TouchAction
@@ -20,12 +20,17 @@ informative_messages = InformativeMessage()
 
 class ActionGestures(ResolutionDevice):
 
-    current_directory = os.path.dirname(__file__)
+    current_directory = Path(__file__).resolve().parent
     relative_path = constants.COORDINATES_SWIPE_TO
-    coordinates_path = os.path.join(current_directory, relative_path)
+    coordinates_path = (current_directory / relative_path).resolve()
 
-    with open(coordinates_path, "r") as json_file:
-        directions = json.load(json_file)
+    try:
+        with open(coordinates_path, "r") as json_file:
+            directions = json.load(json_file)
+    except FileNotFoundError:
+        print(f"the file was not found: {coordinates_path}")
+    except Exception as e:
+        print(f"Error to open file: {e}")
 
     def __init__(self):
         super().__init__()
