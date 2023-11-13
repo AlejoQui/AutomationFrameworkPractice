@@ -1,4 +1,5 @@
 import json
+from os.path import isfile
 from pathlib import Path
 
 from appium import webdriver
@@ -14,39 +15,62 @@ class KWALauncher:
         self.driver = None
 
         self.constants = General()
-        self.initialize()
+        self.verify_constants_file()
 
-    def initialize(self):
+    def verify_constants_file(self):
         if not self.constants_path.is_file():
             raise FileNotFoundError(f"Constants file not found: {self.constants_path}")
         else:
             print(f"Constants file found: {self.constants_path}")
 
     @staticmethod
-    def load_capabilities_from_file(file_path):
-        print(f"Attempting to load file from: {file_path}")
+    def load_capabilities(file_path):
+        print(f"Verify: Attempting to load file from: {file_path}")
         try:
-            root_directory = Path(__file__).resolve().parent.parent
-            full_path = (root_directory / file_path).resolve()
+            utils_directory = Path(__file__).resolve().parent
+            # Get C:\Users\Alejandro Q\Desktop\FrameworkPractice\utils
+            framework_practice_directory = utils_directory.parent
+            # Get C:\Users\Alejandro Q\Desktop\FrameworkPractice
+            capabilities_json_path = (framework_practice_directory / file_path).resolve()
+            # Get C:\Users\Alejandro Q\Desktop\FrameworkPractice\config\capabilities.json
 
-            with open(full_path, "r") as file:
+            with open(capabilities_json_path, 'r') as file:
                 capabilities = json.load(file)
 
-            if "app" not in capabilities:
-                raise ValueError(
-                    "Check the 'capabilities.json'. Verify that the 'app' key is present."
-                )
+            app_path = Path(capabilities.get('app'))
 
-            apk_path = (root_directory / capabilities["app"]).resolve()
+            if app_path.is_absolute():
+                return capabilities
+            else:
+                absolute_path = (framework_practice_directory / app_path).resolve()
+                capabilities['app'] = str(absolute_path)
+                print(f'Ruta convertida {absolute_path}')
+                return capabilities
 
-            if not apk_path.is_file():
-                raise FileNotFoundError(
-                    f"The APK file was not found at the specified path: {apk_path}."
-                    f"Please check the 'capabilities.json' file and "
-                    f"verify that the 'app' key is present."
-                )
+        except FileNotFoundError as e:
+            raise ValueError(f"Error verifying app path in JSON: File not found - {e}")
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Error verifying app path in JSON: JSON decoding error - {e}")
+        except Exception as e:
+            raise ValueError(f"Error verifying app path in JSON: {e}")
 
-            return capabilities
+    @staticmethod
+    def verify_apk_file(file_path):
+        try:
+            apk_path = file_path.get('app')
+
+            if not apk_path:
+                raise FileNotFoundError("The 'app' key is missing in the JSON.")
+
+            apk_path = Path(apk_path)
+            print(f"Absolute APK path: {apk_path}")
+
+            if not apk_path.exists():
+                raise FileNotFoundError(f"The APK file does not exist at the specified path: {apk_path}."
+                                        f"Please check the 'capabilities.json' file and "
+                                        f"verify that the 'app' key is present.")
+
+            print(f"APK file exists: {isfile(apk_path)}")
 
         except FileNotFoundError as e:
             raise ValueError(f"Error loading capabilities from file: File not found - {e}")
@@ -58,9 +82,10 @@ class KWALauncher:
     def launch_app(self):
         try:
             capabilities_file_path = self.constants.CAPABILITIES_PATH
-            capabilities = self.load_capabilities_from_file(capabilities_file_path)
+            capabilities_json = self.load_capabilities(capabilities_file_path)
+            self.verify_apk_file(capabilities_json)
 
-            self.driver = webdriver.Remote(self.constants.SERVER_PATH, capabilities)
+            self.driver = webdriver.Remote(self.constants.SERVER_PATH, capabilities_json)
 
         except WebDriverException as e:
             raise WebDriverException(f"Error launching the app: {e}")
